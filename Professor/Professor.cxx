@@ -1,6 +1,6 @@
 #include "Professor.hxx"
 
-Professor::Professor () noexcept {
+Professor::Professor (void) noexcept {
     this->birth_year = 0;
 }
 
@@ -14,31 +14,31 @@ Professor::Professor (const std::string& university, const std::string& departme
     this->subjects = subjects;
 }
 
-std::string Professor::getUniversity () const noexcept {
+std::string Professor::getUniversity (void) const noexcept {
     return this->university;
 }
 
-std::string Professor::getDepartment () const noexcept {
+std::string Professor::getDepartment (void) const noexcept {
     return this->department;
 }
 
-std::string Professor::getPost () const noexcept {
+std::string Professor::getPost (void) const noexcept {
     return this->post;
 }
 
-std::string Professor::getFullName () const noexcept {
+std::string Professor::getFullName (void) const noexcept {
     return this->full_name;
 }
 
-unsigned short Professor::getBirthYear () const noexcept {
+unsigned short Professor::getBirthYear (void) const noexcept {
     return this->birth_year;
 }
 
-std::string Professor::getAcademicDegree () const noexcept {
+std::string Professor::getAcademicDegree (void) const noexcept {
     return this->academic_degree;
 }
 
-std::string Professor::getSubjects () const noexcept {
+std::string Professor::getSubjects (void) const noexcept {
     return this->subjects;
 }
 

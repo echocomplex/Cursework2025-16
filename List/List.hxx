@@ -18,21 +18,21 @@ private:
     Node<T>* last;
 
 public:
-    List () noexcept;
+    List (void) noexcept;
     List (const List& unit) noexcept;
     List& operator= (const List& unit) noexcept;
     T& operator[] (const unsigned int index);
     bool operator== (const List& unit) const noexcept;
-    ~List () noexcept;
+    ~List (void) noexcept;
     void append (const T newData) noexcept;
     void remove (const unsigned int index);
     unsigned int find (T data) const;
-    unsigned int length () const noexcept;
+    unsigned int length (void) const noexcept;
     bool isExists (T data) const noexcept;
 };
 
 
-template <typename T> List<T>::List () noexcept {
+template <typename T> List<T>::List (void) noexcept {
     this->first = nullptr;
     this->last = nullptr;
 }
@@ -130,7 +130,7 @@ template <typename T> bool List<T>::operator== (const List& unit) const noexcept
     return true;
 } 
 
-template <typename T> List<T>::~List () noexcept {
+template <typename T> List<T>::~List (void) noexcept {
     if (this->first == nullptr) {
         return;
     }
@@ -232,7 +232,7 @@ template <typename T> unsigned int List<T>::find (T data) const {
     }
 }
 
-template <typename T> unsigned int List<T>::length () const noexcept {
+template <typename T> unsigned int List<T>::length (void) const noexcept {
     if (this->last == nullptr) {
         return 0;
     }
