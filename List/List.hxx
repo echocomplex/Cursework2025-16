@@ -18,11 +18,11 @@ private:
     Node<T>* last;
 
 public:
-    List ();
+    List () noexcept;
     List (const List& unit) noexcept;
     List& operator= (const List& unit) noexcept;
     T& operator[] (const unsigned int index);
-    bool operator== (List& unit) const noexcept;
+    bool operator== (const List& unit) const noexcept;
     ~List () noexcept;
     void append (const T newData) noexcept;
     void remove (const unsigned int index);
@@ -32,12 +32,12 @@ public:
 };
 
 
-template <typename T> List<T>::List () {
+template <typename T> List<T>::List () noexcept {
     this->first = nullptr;
     this->last = nullptr;
 }
 
-template <typename T> List<T>::List (const List<T>& unit) {
+template <typename T> List<T>::List (const List<T>& unit) noexcept {
     if (unit.first == nullptr) {
         this->first = nullptr;
         this->last = nullptr;
@@ -63,7 +63,7 @@ template <typename T> List<T>::List (const List<T>& unit) {
     }
 }
 
-template <typename T> List<T>& List<T>::operator= (const List<T>& unit) {
+template <typename T> List<T>& List<T>::operator= (const List<T>& unit) noexcept {
     if (this != &unit) {
         while (this->first != nullptr) {
             Node<T>* temp = this->first;
@@ -114,16 +114,28 @@ template <typename T> T& List<T>::operator[] (const unsigned int index) {
     }
 }
 
-template <typename T> bool List<T>::operator== (List& unit) const {
-    return ((unit.first == this->first) and (unit.last == this->last));
+template <typename T> bool List<T>::operator== (const List& unit) const noexcept {
+    if (this->length() != unit.length()) return false;
+    
+    Node<T>* navigate1 = this->first;
+    Node<T>* navigate2 = unit.first;
+    while (navigate1 != nullptr) {
+        if (navigate1->unit != navigate2->unit) {
+            return false;
+        }
+        navigate1 = navigate1->next;
+        navigate2 = navigate2->next;
+    }
+
+    return true;
 } 
 
-template <typename T> List<T>::~List () {
+template <typename T> List<T>::~List () noexcept {
     if (this->first == nullptr) {
         return;
     }
     Node<T>* toDelete;
-    while (this->first->next != nullptr) {
+    while (this->first != nullptr) {
         toDelete = this->first;
         this->first = this->first->next;
         delete toDelete;
@@ -131,7 +143,7 @@ template <typename T> List<T>::~List () {
     this->first = nullptr;
 }
 
-template <typename T> void List<T>::append (const T newData) {
+template <typename T> void List<T>::append (const T newData) noexcept {
     Node<T>* newNode = new Node <T>;
     newNode->unit = newData;
     newNode->next = nullptr;
@@ -150,7 +162,7 @@ template <typename T> void List<T>::remove (const unsigned int index) {
     if (this->first == nullptr) {
         throw std::logic_error("List is empty");
     }
-    else if (index < 0 || index > this->last->index) {
+    else if (index > this->last->index) {
         throw std::out_of_range("Index is out of range");
     }
     else if (index == 0) {
@@ -180,7 +192,6 @@ template <typename T> void List<T>::remove (const unsigned int index) {
             this->last = thisNode;
         }
         else {
-            Node<T>* lastNode = nullptr;
             Node<T>* toDelete = nullptr;
             bool changeIndex = false;
             while (thisNode->next != nullptr) {
@@ -190,21 +201,20 @@ template <typename T> void List<T>::remove (const unsigned int index) {
                 }
                 else {
                     if (thisNode->next->index == index) {
-                        lastNode = thisNode;
                         toDelete = thisNode->next;
+                        thisNode->next = toDelete->next;
                         changeIndex = true;
                     }
                     thisNode = thisNode->next;
                 }
             }
             thisNode->index = thisNode->index - 1; 
-            lastNode->next = toDelete->next;
             delete toDelete;
         }
     }
 }
 
-template <typename T> unsigned int List<T>::find (T data) {
+template <typename T> unsigned int List<T>::find (T data) const {
     if (this->first == nullptr) {
         throw std::logic_error("List is empty");
     }
@@ -222,7 +232,7 @@ template <typename T> unsigned int List<T>::find (T data) {
     }
 }
 
-template <typename T> unsigned int List<T>::length () {
+template <typename T> unsigned int List<T>::length () const noexcept {
     if (this->last == nullptr) {
         return 0;
     }
@@ -231,7 +241,7 @@ template <typename T> unsigned int List<T>::length () {
     }    
 }
 
-template <typename T> bool List<T>::isExists (T data) {
+template <typename T> bool List<T>::isExists (T data) const noexcept {
     if (this->first == nullptr) {
         return false;
     }
