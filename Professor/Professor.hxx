@@ -15,8 +15,8 @@ private:
 
 public:
     Professor () noexcept;
-    Professor (const std::string& university, const std::string& department, const std::string& post, const std::string& full_name, const unsigned short birth_year, const std::string& academic_degree, const std::string& subjects);
-    ~Professor () = default;
+    Professor (const std::string& university, const std::string& department, const std::string& post, const std::string& full_name, const unsigned short birth_year, const std::string& academic_degree, const std::string& subjects) noexcept;
+    ~Professor () noexcept = default;
     std::string getUniversity () const noexcept;
     std::string getDepartment () const noexcept;
     std::string getPost () const noexcept;
@@ -28,8 +28,8 @@ public:
     void setDepartment (const std::string& department) noexcept;
     void setPost (const std::string& post) noexcept;
     void setFullName (const std::string& full_name) noexcept;
-    void setBirthYear (const unsigned short birht_year) noexcept;
-    void setAcademicDegree (const std::string& academiic_degree) noexcept;
+    void setBirthYear (const unsigned short birth_year) noexcept;
+    void setAcademicDegree (const std::string& academic_degree) noexcept;
     void setSubjects (const std::string& subjects) noexcept;
 };
 
