@@ -22,6 +22,7 @@ public:
     List (const List& unit) noexcept;
     List& operator= (const List& unit) noexcept;
     T& operator[] (const unsigned int index);
+    const T& operator[] (const unsigned int index) const;
     bool operator== (const List& unit) const noexcept;
     ~List (void) noexcept;
     void append (const T newData) noexcept;
@@ -103,6 +104,22 @@ template <typename T> T& List<T>::operator[] (const unsigned int index) {
         throw std::logic_error("List is empty");
     }
     else if (index < 0 || index > this->last->index) {
+        throw std::out_of_range("Index is out of range");
+    }
+    else {
+        Node<T>* thisNode = this->first;
+        while (thisNode->index != index) {
+            thisNode = thisNode->next;
+        }
+        return thisNode->unit;
+    }
+}
+
+template <typename T> const T& List<T>::operator[] (const unsigned int index) const {
+    if (this->first == nullptr) {
+        throw std::logic_error("List is empty");
+    }
+    else if (index > this->last->index) {
         throw std::out_of_range("Index is out of range");
     }
     else {
