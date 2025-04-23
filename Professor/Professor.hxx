@@ -17,6 +17,7 @@ public:
     Professor (void) noexcept;
     Professor (const std::string& university, const std::string& department, const std::string& post, const std::string& full_name, const unsigned short birth_year, const std::string& academic_degree, const std::string& subjects) noexcept;
     ~Professor (void) noexcept = default;
+    Professor& operator= (const Professor& unit) noexcept;
     std::string getUniversity (void) const noexcept;
     std::string getDepartment (void) const noexcept;
     std::string getPost (void) const noexcept;

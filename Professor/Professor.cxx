@@ -14,6 +14,17 @@ Professor::Professor (const std::string& university, const std::string& departme
     this->subjects = subjects;
 }
 
+Professor& Professor::operator= (const Professor& unit) {
+    this->university = unit.university;
+    this->department = unit.department;
+    this->post = unit.post;
+    this->full_name = unit.full_name;
+    this->birth_year = unit.birth_year;
+    this->academic_degree = unit.academic_degree;
+    this->subjects = unit.subjects;
+    return *this;
+}
+
 std::string Professor::getUniversity (void) const noexcept {
     return this->university;
 }

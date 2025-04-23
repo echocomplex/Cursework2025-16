@@ -33,7 +33,7 @@ void Database::remove (const unsigned int index) noexcept {
 void Database::searchProfessorsWithAcademicDegree (List <Professor>& unit) const noexcept {
     for (unsigned int i = 0; i < this->data.length(); ++i) {
         const Professor& current = this->data[i];
-        if (!current.getAcademicDegree().empty()) {
+        if (!current.getAcademicDegree().empty() or current.getAcademicDegree() != "No") {
             unit.append(current);
         }
     }
@@ -60,6 +60,6 @@ double Database::calculateAverageAge (void) const noexcept {
     for (unsigned int i = 0; i < this->data.length(); ++i) {
         result += current_year - this->data[i].getBirthYear();
     }
-    
+
     return result / this->data.length();
 }

@@ -8,7 +8,7 @@
 #include <ctime>
 
 
-class Database : private Filer {
+class Database {
 private:
     List <Professor> data;
 public:
