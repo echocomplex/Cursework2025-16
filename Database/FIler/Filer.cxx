@@ -38,8 +38,13 @@ void Filer::readToList (List <Professor>& unit) noexcept {
 }
 
 void Filer::stringToProfessor (Professor& unit, const std::string& str) noexcept {
+    std::string arr[7];
     unsigned short count = 0;
-    for (size_t i = 0; i < str.size(); ++i) {
-        if (str[i] )
+    for (size_t i = 0; i < (str.size() - 1) && count < 7; ++i) {
+        if (str[i] == '$' && str[i + 1] == '$') {
+            ++count, ++i;
+        }
+        else arr[count].push_back(str[i]);
     }
+    if (count < 7) arr[count].push_back(str[str.size() - 1]);
 }
