@@ -14,11 +14,11 @@ Database& Database::operator= (const Database& unit) noexcept {
     return *this;
 }
 
-Professor& Database::operator[] (const unsigned int index) {
+Professor& Database::operator[] (const unsigned int index) noexcept {
     return this->data[index];
 }
 
-const Professor& Database::operator[] (const unsigned int index) const {
+const Professor& Database::operator[] (const unsigned int index) const noexcept {
     return this->data[index];
 }
 

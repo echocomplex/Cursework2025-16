@@ -1,6 +1,6 @@
 #include "Filer.hxx"
 
-Filer::Filer (const std::string& path, const bool createNew = false) {
+Filer::Filer (const std::string& path, const bool createNew) {
     if (createNew) {
         this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
         if (!this->file.is_open()) {

@@ -14,7 +14,7 @@ Professor::Professor (const std::string& university, const std::string& departme
     this->subjects = subjects;
 }
 
-Professor& Professor::operator= (const Professor& unit) {
+Professor& Professor::operator= (const Professor& unit) noexcept {
     this->university = unit.university;
     this->department = unit.department;
     this->post = unit.post;
