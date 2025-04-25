@@ -16,12 +16,12 @@ public:
     Filer (const std::string& path, const bool createNew = false);
     ~Filer (void) noexcept;
     void read (std::string& str) noexcept;
-    void readToList (List <Professor>& unit) noexcept;
+    void readToList (List <Professor>& unit);
     void writeBack (std::string& string) noexcept;
     void writeBackFromList (const Professor& unit) noexcept;
     void rewrite (std::string& string) noexcept;
     void rewriteFromList (const List <Professor>& unit) noexcept;
-    static void stringToProfessor (Professor& unit, const std::string& str) noexcept;
+    static void stringToProfessor (Professor& unit, const std::string& str);
 };
 
 #endif // FILER_HXX

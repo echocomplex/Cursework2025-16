@@ -25,6 +25,19 @@ Professor& Professor::operator= (const Professor& unit) noexcept {
     return *this;
 }
 
+std::ostream& operator<< (std::ostream& os, const Professor& unit) {
+    os << 
+        unit.university << ' ' <<
+        unit.department << ' ' <<
+        unit.post << ' ' <<
+        unit.full_name << ' ' <<
+        unit.birth_year << ' ' <<
+        unit.academic_degree << ' ' <<
+        unit.subjects
+    ;
+    return os;
+}
+
 std::string Professor::getUniversity (void) const noexcept {
     return this->university;
 }

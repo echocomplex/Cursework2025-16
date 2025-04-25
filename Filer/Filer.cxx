@@ -27,24 +27,46 @@ void Filer::read (std::string& str) noexcept {
     while (std::getline(this->file, temp)) str += temp;
 }
 
-void Filer::readToList (List <Professor>& unit) noexcept {
+void Filer::readToList (List <Professor>& unit) {
     this->file.seekg(0, std::ios::beg);
     std::string temp;
     Professor node;
     while (std::getline(this->file, temp)) {
+        node = Professor();
         this->stringToProfessor(node, temp);
         unit.append(node);
     }
 }
 
-void Filer::stringToProfessor (Professor& unit, const std::string& str) noexcept {
+void Filer::writeBack (std::string& string) {
+    if (string.empty()) return;
+    this->file.seekp(0, std::ios::end);
+    this->file << string << '\n';
+}
+
+void Filer::stringToProfessor (Professor& unit, const std::string& str) {
+    if (str.empty()) return;
+
     std::string arr[7];
     unsigned short count = 0;
     for (size_t i = 0; i < (str.size() - 1) && count < 7; ++i) {
         if (str[i] == '$' && str[i + 1] == '$') {
             ++count, ++i;
-        }
+        } 
         else arr[count].push_back(str[i]);
     }
     if (count < 7) arr[count].push_back(str[str.size() - 1]);
+
+    unit.setUniversity(arr[0]);
+    unit.setDepartment(arr[1]);
+    unit.setPost(arr[2]);
+    unit.setFullName(arr[3]);
+    try {
+        unit.setBirthYear(std::stoul(arr[4]));
+    } 
+    catch (std::invalid_argument) {
+        unit.setBirthYear(0); 
+    }
+    unit.setAcademicDegree(arr[5]);
+    unit.setSubjects(arr[6]);
 }
