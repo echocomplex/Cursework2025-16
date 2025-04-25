@@ -10,6 +10,7 @@
 
 class Database {
 private:
+    Filer file;
     List <Professor> data;
 public:
     Database (void) noexcept = default;

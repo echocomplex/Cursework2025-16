@@ -13,14 +13,16 @@ class Filer {
 private:
     std::fstream file;
 public:
+    Filer (void) noexcept = default;
     Filer (const std::string& path, const bool createNew = false);
     ~Filer (void) noexcept;
-    void read (std::string& str) noexcept;
+    void open (const std::string& path);
+    void read (std::string& str);
     void readToList (List <Professor>& unit);
-    void writeBack (std::string& string) noexcept;
-    void writeBackFromList (const Professor& unit) noexcept;
-    void rewrite (std::string& string) noexcept;
-    void rewriteFromList (const List <Professor>& unit) noexcept;
+    void writeBack (std::string& string);
+    void writeBackFromList (const Professor& unit);
+    void rewrite (std::string& string);
+    void rewriteFromList (const List <Professor>& unit);
     static void stringToProfessor (Professor& unit, const std::string& str);
 };
 

@@ -12,22 +12,30 @@ Filer::Filer (const std::string& path, const bool createNew) {
     }
     else {
         this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
-        if (!file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
+        if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
     }
 }
 
 Filer::~Filer (void) noexcept {
-    this->file.close();
+    if (this->file.is_open()) this->file.close();
 }
 
+void Filer::open (const std::string& path) {
+    this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+    if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
+}
 
 void Filer::read (std::string& str) noexcept {
+    if (!this->file.is_open()) throw std::runtime_error("File does not open now");
+    
     this->file.seekg(0, std::ios::beg);
     std::string temp;
     while (std::getline(this->file, temp)) str += temp;
 }
 
 void Filer::readToList (List <Professor>& unit) {
+    if (!this->file.is_open()) throw std::runtime_error("File does not open now");
+    
     this->file.seekg(0, std::ios::beg);
     std::string temp;
     Professor node;
@@ -39,7 +47,9 @@ void Filer::readToList (List <Professor>& unit) {
 }
 
 void Filer::writeBack (std::string& string) {
-    if (string.empty()) return;
+    if (!this->file.is_open()) throw std::runtime_error("File does not open now");
+    else if (string.empty()) return;
+
     this->file.seekp(0, std::ios::end);
     this->file << string << '\n';
 }

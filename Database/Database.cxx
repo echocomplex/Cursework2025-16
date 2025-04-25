@@ -1,5 +1,9 @@
 #include "Database.hxx"
 
+Database::Database (void) {
+    this->file.open("database.txt");
+}
+
 Database::Database (const List <Professor>& unit) noexcept {
     this->data = unit;
 }
