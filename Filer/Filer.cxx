@@ -25,17 +25,23 @@ void Filer::open (const std::string& path) {
     if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
 }
 
-void Filer::read (std::string& str) noexcept {
+void Filer::read (std::string& str) {
     if (!this->file.is_open()) throw std::runtime_error("File does not open now");
     
+    this->mutex.lock();
+
     this->file.seekg(0, std::ios::beg);
     std::string temp;
     while (std::getline(this->file, temp)) str += temp;
+    
+    this->mutex.unlock();
 }
 
 void Filer::readToList (List <Professor>& unit) {
     if (!this->file.is_open()) throw std::runtime_error("File does not open now");
     
+    this->mutex.lock();
+
     this->file.seekg(0, std::ios::beg);
     std::string temp;
     Professor node;
@@ -44,14 +50,20 @@ void Filer::readToList (List <Professor>& unit) {
         this->stringToProfessor(node, temp);
         unit.append(node);
     }
+
+    this->mutex.unlock();
 }
 
 void Filer::writeBack (std::string& string) {
     if (!this->file.is_open()) throw std::runtime_error("File does not open now");
     else if (string.empty()) return;
 
+    this->mutex.lock();
+
     this->file.seekp(0, std::ios::end);
     this->file << string << '\n';
+
+    this->mutex.unlock();
 }
 
 void Filer::stringToProfessor (Professor& unit, const std::string& str) {

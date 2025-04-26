@@ -1,15 +1,20 @@
 #include "Database.hxx"
 
 Database::Database (void) {
-    this->file.open("database.txt");
+    this->file.open("database.txt", createNew = true);
+    this->filename = "database.txt";
 }
 
-Database::Database (const List <Professor>& unit) noexcept {
+Database::Database (const List <Professor>& unit, const std::string& filename) {
     this->data = unit;
+    this->file.open(filename);
+    this->filename = filename;
 }
 
-Database::Database (const Database& unit) noexcept {
+Database::Database (const Database& unit) {
     this->data = unit.data;
+    this->file.open(filename);
+    this->filename = filename;
 }
 
 Database& Database::operator= (const Database& unit) noexcept {
@@ -20,6 +25,10 @@ Database& Database::operator= (const Database& unit) noexcept {
 
 Professor& Database::operator[] (const unsigned int index) noexcept {
     return this->data[index];
+}
+
+std::ostream& operator<< (std::ostream& os, const Database& unit) {
+    for (unsigned int i = 0; i < this->)
 }
 
 const Professor& Database::operator[] (const unsigned int index) const noexcept {

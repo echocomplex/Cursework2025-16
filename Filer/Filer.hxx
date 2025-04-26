@@ -5,13 +5,14 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
+#include <mutex>
 #include <List.hxx>
 #include <Professor.hxx>
-
 
 class Filer {
 private:
     std::fstream file;
+    std::mutex mutex;
 public:
     Filer (void) noexcept = default;
     Filer (const std::string& path, const bool createNew = false);
