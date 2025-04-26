@@ -30,6 +30,7 @@ public:
     unsigned int find (T data) const;
     unsigned int length (void) const noexcept;
     bool isExists (T data) const noexcept;
+    void clear (void) noexcept;
 };
 
 
@@ -158,6 +159,7 @@ template <typename T> List<T>::~List (void) noexcept {
         delete toDelete;
     }
     this->first = nullptr;
+    this->last = nullptr;
 }
 
 template <typename T> void List<T>::append (const T newData) noexcept {
@@ -274,6 +276,20 @@ template <typename T> bool List<T>::isExists (T data) const noexcept {
         }
         return false;
     }
+}
+
+template <typename T> void List<T>::clear (void) noexcept {
+    if (this->first == nullptr) {
+        return;
+    }
+    Node<T>* toDelete;
+    while (this->first != nullptr) {
+        toDelete = this->first;
+        this->first = this->first->next;
+        delete toDelete;
+    }
+    this->first = nullptr;
+    this->last = nullptr;
 }
 
 

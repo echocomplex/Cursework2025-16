@@ -17,7 +17,7 @@ public:
     Filer (void) noexcept = default;
     Filer (const std::string& path, const bool createNew = false);
     ~Filer (void) noexcept;
-    void open (const std::string& path);
+    void open (const std::string& path, const bool createNew = false);
     void read (std::string& str);
     void readToList (List <Professor>& unit);
     void writeBack (std::string& string);

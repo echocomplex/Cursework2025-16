@@ -15,7 +15,7 @@ private:
     std::string filename;
     List <Professor> data;
 public:
-    Database (void) noexcept;
+    Database (void);
     Database (const std::string& filename);
     Database (const List <Professor>& unit, const std::string& filename);
     Database (const Database& unit);

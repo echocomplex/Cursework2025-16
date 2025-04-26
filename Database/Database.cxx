@@ -1,8 +1,15 @@
 #include "Database.hxx"
 
 Database::Database (void) {
-    this->file.open("database.txt", createNew = true);
+    this->file.open("database.txt", true);
     this->filename = "database.txt";
+    this->file.readToList(this->data);
+}
+
+Database::Database (const std::string& filename) {
+    this->file.open(filename);
+    this->filename = filename;
+    this->file.readToList(this->data);
 }
 
 Database::Database (const List <Professor>& unit, const std::string& filename) {
@@ -28,7 +35,8 @@ Professor& Database::operator[] (const unsigned int index) noexcept {
 }
 
 std::ostream& operator<< (std::ostream& os, const Database& unit) {
-    for (unsigned int i = 0; i < this->)
+    for (unsigned int i = 0; i < unit.data.length(); ++i) os << unit[i] << std::endl;
+    return os;
 }
 
 const Professor& Database::operator[] (const unsigned int index) const noexcept {
@@ -46,7 +54,7 @@ void Database::remove (const unsigned int index) noexcept {
 void Database::searchProfessorsWithAcademicDegree (List <Professor>& unit) const noexcept {
     for (unsigned int i = 0; i < this->data.length(); ++i) {
         const Professor& current = this->data[i];
-        if (!current.getAcademicDegree().empty() or current.getAcademicDegree() != "No") {
+        if (!current.getAcademicDegree().empty() && current.getAcademicDegree() != "No") {
             unit.append(current);
         }
     }

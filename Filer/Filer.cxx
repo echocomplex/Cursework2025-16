@@ -20,9 +20,20 @@ Filer::~Filer (void) noexcept {
     if (this->file.is_open()) this->file.close();
 }
 
-void Filer::open (const std::string& path) {
-    this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
-    if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
+void Filer::open (const std::string& path, const bool createNew) {
+    if (createNew) {
+        this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+        if (!this->file.is_open()) {
+            this->file.open(path, std::ios::out);
+            this->file.close();
+            this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+            if (!this->file.is_open()) throw std::runtime_error("Failed to create the file.");
+        }
+    }
+    else {
+        this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+        if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
+    }
 }
 
 void Filer::read (std::string& str) {
