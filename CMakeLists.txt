@@ -11,6 +11,7 @@ INCLUDE_DIRECTORIES(
     ${CMAKE_CURRENT_SOURCE_DIR}/Database
     ${CMAKE_CURRENT_SOURCE_DIR}/Filer
     ${CMAKE_CURRENT_SOURCE_DIR}/Professor
+    ${CMAKE_CURRENT_SOURCE_DIR}/Interface
 )
 
 ADD_EXECUTABLE(
@@ -18,4 +19,5 @@ ADD_EXECUTABLE(
     Database/Database.cxx
     Filer/Filer.cxx
     Professor/Professor.cxx
+    Interface/Interface.cxx
 )

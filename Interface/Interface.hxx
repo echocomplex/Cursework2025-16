@@ -10,10 +10,14 @@
 
 class Interface {
 private:
-    Database unit;
+    // Database unit;
+    void displayMenu (void);
+    void clearInputBuffer (void);
 public:
     Interface (void) noexcept = default;
-    void execute (void);
+    Interface (const Interface& unit) noexcept = delete;
+    ~Interface (void) noexcept = default;
+    void pool (void);
 };
 
 
