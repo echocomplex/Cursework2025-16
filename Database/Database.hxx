@@ -10,7 +10,7 @@
 
 
 class Database {
-private:
+protected:
     Filer file;
     std::string filename;
     List <Professor> data;
@@ -19,7 +19,7 @@ public:
     Database (const std::string& filename);
     Database (const List <Professor>& unit, const std::string& filename);
     Database (const Database& unit);
-    ~Database (void) noexcept = default;
+    ~Database (void);
     Database& operator= (const Database& unit) noexcept;
     Professor& operator[] (const unsigned int index) noexcept;
     friend std::ostream& operator<< (std::ostream& os, const Database& unit);

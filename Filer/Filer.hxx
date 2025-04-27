@@ -13,6 +13,7 @@ class Filer {
 private:
     std::fstream file;
     std::mutex mutex;
+    std::string path;
 public:
     Filer (void) noexcept = default;
     Filer (const std::string& path, const bool createNew = false);
@@ -21,7 +22,7 @@ public:
     void read (std::string& str);
     void readToList (List <Professor>& unit);
     void writeBack (std::string& string);
-    void writeBackFromList (const Professor& unit);
+    void writeBackFromProfessor (const Professor& unit);
     void rewrite (std::string& string);
     void rewriteFromList (const List <Professor>& unit);
     static void stringToProfessor (Professor& unit, const std::string& str);

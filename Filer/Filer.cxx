@@ -2,18 +2,19 @@
 
 Filer::Filer (const std::string& path, const bool createNew) {
     if (createNew) {
-        this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+        this->file.open(path, std::ios::in);
         if (!this->file.is_open()) {
             this->file.open(path, std::ios::out);
             this->file.close();
-            this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+            this->file.open(path, std::ios::in);
             if (!this->file.is_open()) throw std::runtime_error("Failed to create the file.");
         }
     }
     else {
-        this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+        this->file.open(path, std::ios::in);
         if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
     }
+    this->path = path;
 }
 
 Filer::~Filer (void) noexcept {
@@ -22,18 +23,19 @@ Filer::~Filer (void) noexcept {
 
 void Filer::open (const std::string& path, const bool createNew) {
     if (createNew) {
-        this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+        this->file.open(path, std::ios::in);
         if (!this->file.is_open()) {
             this->file.open(path, std::ios::out);
             this->file.close();
-            this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+            this->file.open(path, std::ios::in);
             if (!this->file.is_open()) throw std::runtime_error("Failed to create the file.");
         }
     }
     else {
-        this->file.open(path, std::ios::in | std::ios::out | std::ios::ate);
+        this->file.open(path, std::ios::in);
         if (!this->file.is_open()) throw std::runtime_error("File cannot be opened or does not exists");
     }
+    this->path = path;
 }
 
 void Filer::read (std::string& str) {
@@ -41,9 +43,14 @@ void Filer::read (std::string& str) {
     
     this->mutex.lock();
 
+    this->file.close();
+    this->file.open(this->path, std::ios::in);
+
     this->file.seekg(0, std::ios::beg);
     std::string temp;
-    while (std::getline(this->file, temp)) str += temp;
+
+    this->file.seekp(0, std::ios::beg);
+    while (std::getline(this->file, temp)) str += temp + '\n';
     
     this->mutex.unlock();
 }
@@ -52,6 +59,9 @@ void Filer::readToList (List <Professor>& unit) {
     if (!this->file.is_open()) throw std::runtime_error("File does not open now");
     
     this->mutex.lock();
+
+    this->file.close();
+    this->file.open(this->path, std::ios::in);
 
     this->file.seekg(0, std::ios::beg);
     std::string temp;
@@ -71,8 +81,83 @@ void Filer::writeBack (std::string& string) {
 
     this->mutex.lock();
 
-    this->file.seekp(0, std::ios::end);
+    this->file.close();
+    this->file.open(this->path, std::ios::out | std::ios::app);
+
     this->file << string << '\n';
+    this->file.flush();
+    this->mutex.unlock();
+}
+
+void Filer::writeBackFromProfessor (const Professor& unit) {
+    if (!this->file.is_open()) throw std::runtime_error("File does not open now");
+
+    this->mutex.lock();
+
+    this->file.close();
+    this->file.open(this->path, std::ios::out | std::ios::app);
+
+    this->file << 
+        unit.getUniversity() << "$$" <<
+        unit.getDepartment() << "$$" <<
+        unit.getPost() << "$$" <<
+        unit.getFullName() << "$$" <<
+        unit.getBirthYear() << "$$" <<
+        unit.getAcademicDegree() << "$$" <<
+        unit.getSubjects() << '\n'
+    ;
+    this->file.flush();
+    
+    this->mutex.unlock();
+}
+
+void Filer::rewrite (std::string& string) {
+    if (!this->file.is_open()) throw std::runtime_error("File does not open now");
+    else if (string.empty()) return;
+
+    this->mutex.lock();
+
+    this->file.close();
+    this->file.open(this->path, std::ios::out | std::ios::trunc);
+
+    this->file << string << '\n';
+    this->file.flush();
+
+    this->mutex.unlock();
+}
+
+void Filer::rewriteFromList (const List <Professor>& unit) {
+    if (!this->file.is_open()) throw std::runtime_error("File does not open now");
+    else if (unit.length() == 0) return;
+
+    this->mutex.lock();
+
+    this->file.close();
+    this->file.open(this->path, std::ios::out | std::ios::trunc);
+
+    if (this->file.fail()) {
+        std::cerr << "Error: File in failed state before operation" << std::endl;
+    }
+
+    this->file.seekg(0, std::ios::beg);
+
+    for (unsigned int i = 0; i < unit.length(); ++i) {
+        std::string toOut = 
+            unit[i].getUniversity() + "$$" +
+            unit[i].getDepartment() + "$$" +
+            unit[i].getPost() + "$$" +
+            unit[i].getFullName() + "$$" +
+            std::to_string(unit[i].getBirthYear()) + "$$" +
+            unit[i].getAcademicDegree() + "$$" +
+            unit[i].getSubjects() + '\n'
+        ;
+        this->file.write(toOut.c_str(), toOut.size());
+        if (this->file.fail()) {
+            std::cerr << "Error: Failed to write record " << i << std::endl;
+            std::cerr << "Error state: " << this->file.rdstate() << std::endl;
+        }
+    }
+    this->file.flush();
 
     this->mutex.unlock();
 }
@@ -97,7 +182,7 @@ void Filer::stringToProfessor (Professor& unit, const std::string& str) {
     try {
         unit.setBirthYear(std::stoul(arr[4]));
     } 
-    catch (std::invalid_argument) {
+    catch (std::exception) {
         unit.setBirthYear(0); 
     }
     unit.setAcademicDegree(arr[5]);

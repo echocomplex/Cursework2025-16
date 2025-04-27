@@ -24,6 +24,10 @@ Database::Database (const Database& unit) {
     this->filename = filename;
 }
 
+Database::~Database (void) {
+    this->file.rewriteFromList(this->data);
+}
+
 Database& Database::operator= (const Database& unit) noexcept {
     if (this == &unit) return *this;
     this->data = unit.data;
@@ -54,7 +58,7 @@ void Database::remove (const unsigned int index) noexcept {
 void Database::searchProfessorsWithAcademicDegree (List <Professor>& unit) const noexcept {
     for (unsigned int i = 0; i < this->data.length(); ++i) {
         const Professor& current = this->data[i];
-        if (!current.getAcademicDegree().empty() && current.getAcademicDegree() != "No") {
+        if (!current.getAcademicDegree().empty() && current.getAcademicDegree() != "-") {
             unit.append(current);
         }
     }
