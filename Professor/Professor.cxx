@@ -27,12 +27,12 @@ Professor& Professor::operator= (const Professor& unit) noexcept {
 
 std::ostream& operator<< (std::ostream& os, const Professor& unit) {
     os << 
-        unit.university << ' ' <<
-        unit.department << ' ' <<
-        unit.post << ' ' <<
-        unit.full_name << ' ' <<
-        unit.birth_year << ' ' <<
-        unit.academic_degree << ' ' <<
+        unit.university << ", " <<
+        unit.department << ", " <<
+        unit.post << ", " <<
+        unit.full_name << ", " <<
+        unit.birth_year << ", " <<
+        unit.academic_degree << ", " <<
         unit.subjects
     ;
     return os;
