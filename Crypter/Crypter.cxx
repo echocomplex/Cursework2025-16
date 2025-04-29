@@ -7,7 +7,7 @@ void Crypter::encrypt (const std::string& filename_in, const std::string& filena
     for (int i = 0; i < 16; ++i) {
         key += alphabet[rand() % 62];
     }
-    this->file.open("key.txt", std::ios::trunc);
+    this->file.open("key.txt", std::ios::out | std::ios::trunc);
     this->file << key;
     this->file.close();
     std::string commandAES = "openssl aes-128-cbc -salt -in " + filename_in + " -out " + filename_out + " -pass pass:" + key;

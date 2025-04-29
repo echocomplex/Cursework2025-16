@@ -1,9 +1,5 @@
 #include "Interface.hxx"
 
-Interface::Interface (void) {
-    this->unit = Database();
-}
-
 void Interface::clearInputBuffer (void) {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -77,7 +73,7 @@ void Interface::pool (void) {
         this->displayMenu();
 
         while (!(std::cin >> choice) || choice < 1 || choice > 7) {
-            std::cout << "Invalid input. Please enter 1-6: ";
+            std::cout << "Invalid input. Please enter 1-7: ";
             this->clearInputBuffer();
         }
 

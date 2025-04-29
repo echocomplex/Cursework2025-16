@@ -3,7 +3,7 @@
 Database::Database (void) {
     this->filename = "database.txt";
     this->filename_enc = "database.enc";
-    this->crypter.encrypt(this->filename_enc, this->filename);
+    this->crypter.decrypt(this->filename_enc, this->filename);
     this->file.open(this->filename, true);
     this->file.readToList(this->data);
 }

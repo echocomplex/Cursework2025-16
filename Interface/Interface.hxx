@@ -17,7 +17,7 @@ private:
     int removeProfessor (void);
     void clearInputBuffer (void);
 public:
-    Interface (void);
+    Interface (void) = default;
     Interface (const Interface& unit) = delete;
     Interface& operator= (const Interface& unit) = delete;
     ~Interface (void) noexcept = default;
