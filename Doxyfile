@@ -1,0 +1,16 @@
+EXTRACT_ALL = YES       # Анализировать весь код, даже без комментариев
+EXTRACT_PRIVATE        = YES  # Включать private-классы/методы
+HAVE_DOT = YES          # Включить Graphviz для диаграмм
+CLASS_DIAGRAMS = YES    # Генерировать диаграммы классов
+RECURSIVE = YES         # Анализировать подкаталоги
+INPUT                  = src/ Crypter/ Database/ Filer/ Interface/ List/ Professor/ # Папки с кодо
+FILE_PATTERNS          = *.hxx *.cxx     # Какие файлы учитывать
+CLASS_GRAPH          = YES      # Включить диаграмму иерархии классов
+COLLABORATION_GRAPH  = YES      # Диаграмма связей между классами
+GRAPHICAL_HIERARCHY  = YES      # Показать иерархию в виде графа
+HIDE_UNDOC_RELATIONS = NO       # Показать все связи, даже не задокументированные
+UML_LOOK           = YES
+CALL_GRAPH         = YES
+CALLER_GRAPH       = YES
+DOT_PATH           = /usr/bin
+DOT_IMAGE_FORMAT   = svg
